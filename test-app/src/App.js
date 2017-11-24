@@ -22,7 +22,7 @@ class App extends Component {
     }
 
     connect1(){
-        let connection = new HubConnection('http://localhost:62618/chat');
+        let connection = new HubConnection('http://localhost:62618/chat?Token=tokens');
 
         connection.on('send', data => {
             console.log("connection 1 recieved Data");
@@ -41,7 +41,7 @@ class App extends Component {
 
 
     connect2(){
-        let connection = new HubConnection('http://localhost:62618/chat');
+        let connection = new HubConnection('http://localhost:62618/chat?Token=tokens');
 
         connection.on('send', data => {
             console.log("connection 2 recieved data");

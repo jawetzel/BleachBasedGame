@@ -23,6 +23,8 @@ namespace BleachGameApi.SignalRStuff
 
         public override Task OnConnectedAsync()
         {
+            //pull value off queery string ?Token=[string]
+            var item = Context.Connection.GetHttpContext().Request.Query["Token"][0];
             // on connection update user for connection id
             this.Groups.AddAsync(this.Context.ConnectionId, "group1");
 
