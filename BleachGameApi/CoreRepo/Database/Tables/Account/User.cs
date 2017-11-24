@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace CoreRepo.Database.Tables.Account
@@ -20,6 +21,8 @@ namespace CoreRepo.Database.Tables.Account
         public string VerifyString { get; set; }
 
         public bool IsOnline { get; set; }
+
+        public ICollection<UsersRole> UsersRoles { get; set; }
         public ICollection<Session> Sessions { get; set; }
     }
 }

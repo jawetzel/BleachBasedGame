@@ -12,6 +12,7 @@ namespace CoreRepo.Database
 
         public DbSet<User> Users { get; set; }
         public DbSet<Session> Sessions { get; set; }
-
+        public DbSet<Role> Roles { get; set; }
+        public DbSet<UsersRole> UsersRoles { get; set; }
     }
 }

@@ -8,21 +8,20 @@ using CoreRepo.IDataAccess.IAccountAccess;
 
 namespace CoreRepo.DataAccess.AccountAccess
 {
-    public class UserAccess : IUserAccess
+    public class RoleAccess : IRoleAccess
     {
         private readonly CoreContext _context;
 
-        public UserAccess(CoreContext context)
+        public RoleAccess(CoreContext context)
         {
             _context = context;
         }
 
-
-        public User Create(User model)
+        public Role Create(Role model)
         {
             try
             {
-                _context.Users.Add(model);
+                _context.Roles.Add(model);
                 _context.SaveChanges();
                 return model;
             }
@@ -32,12 +31,12 @@ namespace CoreRepo.DataAccess.AccountAccess
             }
         }
 
-        public User Update(User model)
+        public Role Update(Role model)
         {
             try
             {
                 model.LastEditedDate = DateTime.UtcNow;
-                _context.Users.Update(model);
+                _context.Roles.Update(model);
                 _context.SaveChanges();
                 return model;
             }
@@ -47,11 +46,11 @@ namespace CoreRepo.DataAccess.AccountAccess
             }
         }
 
-        public bool Delete(User model)
+        public bool Delete(Role model)
         {
             try
             {
-                _context.Users.Remove(model);
+                _context.Roles.Remove(model);
                 _context.SaveChanges();
                 return true;
             }
@@ -61,24 +60,19 @@ namespace CoreRepo.DataAccess.AccountAccess
             }
         }
 
-        public User GetById(int id)
+        public Role GetById(int id)
         {
-            return _context.Users.FirstOrDefault(user => user.Id == id);
+            return  _context.Roles.FirstOrDefault(role => role.Id == id);
         }
 
-        public List<User> GetAll()
+        public List<Role> GetAll()
         {
-            return _context.Users.Where(user => user != null).ToList();
+            return _context.Roles.Where(role => role != null).ToList();
         }
 
-        public User GetByVerifyString(string verifyString)
+        public Role GetByDescription(string description)
         {
-            return _context.Users.FirstOrDefault(user => user.VerifyString.Equals(verifyString));
-        }
-
-        public User GetByEmail(string email)
-        {
-            return _context.Users.FirstOrDefault(user => user.Email.Equals(email));
+            return _context.Roles.FirstOrDefault(role => role.Description.Equals(description));
         }
     }
 }

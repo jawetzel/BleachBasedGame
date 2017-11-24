@@ -12,11 +12,16 @@ namespace CoreServices.AccountServices
     {
         private readonly ISessionAccess _sessionAccess;
         private readonly IUserAccess _userAccess;
+        private readonly IUsersRoleAccess _usersRoleAccess;
+        private readonly IRoleAccess _roleAccess;
 
-        public AccountSerurityService(ISessionAccess sessionAccess, IUserAccess userAccess)
+        public AccountSerurityService(ISessionAccess sessionAccess, IUserAccess userAccess, IUsersRoleAccess usersRoleAccess,
+            IRoleAccess roleAccess)
         {
             _sessionAccess = sessionAccess;
             _userAccess = userAccess;
+            _usersRoleAccess = usersRoleAccess;
+            _roleAccess = roleAccess;
         }
 
 
@@ -26,6 +31,17 @@ namespace CoreServices.AccountServices
             return (session != null && session.ExpireDate >= DateTime.UtcNow) ? session : null;
         }
 
+        public bool CheckIsAdmin(string token)
+        {
+            var session = _sessionAccess.GetByToken(token);
+            if (session == null) return false;
+
+            var role = _roleAccess.GetByDescription("Admin");
+            if (role == null) return false;
+
+            var usersRole = _usersRoleAccess.GetByUserIdAndRoleId(session.UserId, role.Id);
+            return usersRole != null;
+        }
         public bool UpdatePassword(string password, string token)
         {
             var session = _sessionAccess.GetByToken(token);

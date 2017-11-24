@@ -35,6 +35,7 @@ namespace CoreRepo.DataAccess.AccountAccess
         {
             try
             {
+                model.LastEditedDate = DateTime.UtcNow;
                 _context.Sessions.Update(model);
                 _context.SaveChanges();
                 return model;

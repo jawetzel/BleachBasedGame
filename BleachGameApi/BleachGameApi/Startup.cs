@@ -37,6 +37,8 @@ namespace BleachGameApi
             #region AccountAccess
             services.AddScoped<ISessionAccess, SessionAccess>();
             services.AddScoped<IUserAccess, UserAccess>();
+            services.AddScoped<IRoleAccess, RoleAccess>();
+            services.AddScoped<IUsersRoleAccess, UsersRoleAccess>();
             #endregion
 
 
