@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BleachGameApi.SignalRStuff;
 using CoreRepo.Database;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -27,12 +28,46 @@ namespace BleachGameApi
         {
             services.AddDbContext<CoreContext>(options => options.UseSqlServer(Configuration.GetConnectionString("NotrsOnPremConnection")));
 
+
+            services.AddSignalR();
+
             services.AddMvc();
+
+            services.AddCors(o => o.AddPolicy("localHost3000", builder =>
+            {
+                builder.WithOrigins("http://localhost:3000")
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials();
+            }));
+            services.AddCors(o => o.AddPolicy("localHost4200", builder =>
+            {
+                builder.WithOrigins("http://localhost:4200")
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials();
+            }));
+            services.AddCors(o => o.AddPolicy("AllowAll", builder =>
+            {
+                builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials();
+            }));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            app.UseCors("AllowAll");
+            app.UseCors("localHost3000");
+            app.UseCors("localHost4200");
+
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<Chat>("chat");
+            });
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
