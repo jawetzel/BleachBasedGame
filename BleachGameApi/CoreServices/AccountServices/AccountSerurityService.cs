@@ -8,12 +8,12 @@ using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 
 namespace CoreServices.AccountServices
 {
-    public class AccountSerurity
+    public class AccountSerurityService
     {
         private readonly ISessionAccess _sessionAccess;
         private readonly IUserAccess _userAccess;
 
-        public AccountSerurity(ISessionAccess sessionAccess, IUserAccess userAccess)
+        public AccountSerurityService(ISessionAccess sessionAccess, IUserAccess userAccess)
         {
             _sessionAccess = sessionAccess;
             _userAccess = userAccess;
@@ -26,17 +26,24 @@ namespace CoreServices.AccountServices
             return (session != null && session.ExpireDate >= DateTime.UtcNow) ? session : null;
         }
 
-        public bool UpdatePassword(User user, string token)
+        public bool UpdatePassword(string password, string token)
         {
             var session = _sessionAccess.GetByToken(token);
             var founduser = _userAccess.GetById(session.UserId);
             if (founduser == null) return false;
             founduser.Salt = CreateSalt();
-            founduser.Password = user.Password;
+            founduser.Password = password;
             founduser = NewPassword(founduser);
             return _userAccess.Update(founduser) != null;
         }
 
+        public Session Login(User user)
+        {
+            var foundUser = _userAccess.GetByEmail(user.Email);
+            if (foundUser == null) return null;
+            user.Salt = foundUser.Salt;
+            return foundUser.Password.Equals(EncryptPassword(user)) ?  CreateSession(foundUser) : null;
+        }
         public Session CreateSession(User user)
         {
             var session = new Session
@@ -78,6 +85,11 @@ namespace CoreServices.AccountServices
                 "Thank you for registering with us, this email is to verify your email. Please click the following link to verify your account.\n\n "
                 + "http://InsertAddressHere.com" + founduser.VerifyString);
             return founduser;
+        }
+
+        public User GetUserByEmail(string email)
+        {
+            return _userAccess.GetByEmail(email);
         }
 
         public bool VerifyEmailAddress(string verifyString)

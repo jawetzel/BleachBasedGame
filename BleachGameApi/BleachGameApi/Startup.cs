@@ -46,7 +46,7 @@ namespace BleachGameApi
 
             #region AccountServices
 
-            services.AddScoped<AccountSerurity>();
+            services.AddScoped<AccountSerurityService>();
             #endregion
 
 
