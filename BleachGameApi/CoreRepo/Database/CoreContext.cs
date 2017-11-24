@@ -11,5 +11,7 @@ namespace CoreRepo.Database
         public CoreContext(DbContextOptions options) : base(options) { }
 
         public DbSet<User> Users { get; set; }
+        public DbSet<Session> Sessions { get; set; }
+
     }
 }

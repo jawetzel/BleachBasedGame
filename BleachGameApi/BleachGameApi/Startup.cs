@@ -3,7 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BleachGameApi.SignalRStuff;
+using CoreRepo.DataAccess.AccountAccess;
 using CoreRepo.Database;
+using CoreRepo.IDataAccess.IAccountAccess;
+using CoreServices;
+using CoreServices.AccountServices;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -28,6 +32,25 @@ namespace BleachGameApi
         {
             services.AddDbContext<CoreContext>(options => options.UseSqlServer(Configuration.GetConnectionString("NotrsOnPremConnection")));
 
+            #region DataAccess
+
+            #region AccountAccess
+            services.AddScoped<ISessionAccess, SessionAccess>();
+            services.AddScoped<IUserAccess, UserAccess>();
+            #endregion
+
+
+            #endregion
+
+            #region Services
+
+            #region AccountServices
+
+            services.AddScoped<AccountSerurity>();
+            #endregion
+
+
+            #endregion
 
             services.AddSignalR();
 
@@ -74,6 +97,8 @@ namespace BleachGameApi
             }
 
             app.UseMvc();
+
+            Email.SendEmail("jawetzel615@gmail.com", "this working?", "checking to see if this is working");
         }
     }
 }
