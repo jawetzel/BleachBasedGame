@@ -90,7 +90,7 @@ namespace BleachGameApi
 
             app.UseSignalR(routes =>
             {
-                routes.MapHub<Chat>("chat");
+                routes.MapHub<Character>("character");
             });
 
             if (env.IsDevelopment())
@@ -99,8 +99,6 @@ namespace BleachGameApi
             }
 
             app.UseMvc();
-
-            Email.SendEmail("jawetzel615@gmail.com", "this working?", "checking to see if this is working");
         }
     }
 }

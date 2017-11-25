@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.SignalR;
 
 namespace BleachGameApi.SignalRStuff
 {
-    public class Chat : Hub
+    public class Character : Hub
     {
         public Task Send(HubInputModel message)
         {
