@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
+using CoreRepo.Database.Tables.Global;
+using CoreRepo.Database.Tables.PrivateMessage;
 
 namespace CoreRepo.Database.Tables.Account
 {
@@ -34,5 +36,12 @@ namespace CoreRepo.Database.Tables.Account
 
         public ICollection<UsersRole> UsersRoles { get; set; }
         public ICollection<Session> Sessions { get; set; }
+
+        public ICollection<GroupMessage> GroupMessages { get; set; }
+        public ICollection<MessageGroup> MessageGroups { get; set; }
+        public ICollection<MessageGroupUser> MessageGroupUsers { get; set; }
+
+        public ICollection<WorldMessage> WorldMessages { get; set; }
+
     }
 }
