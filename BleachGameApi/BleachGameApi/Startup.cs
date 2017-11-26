@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using BleachGameApi.SignalRStuff;
 using CoreRepo.DataAccess.AccountAccess;
 using CoreRepo.Database;
@@ -30,7 +31,7 @@ namespace BleachGameApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<CoreContext>(options => options.UseSqlServer(Configuration.GetConnectionString("NotrsOnPremConnection")));
+            services.AddDbContext<CoreContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             #region DataAccess
 
@@ -41,20 +42,19 @@ namespace BleachGameApi
             services.AddScoped<IUsersRoleAccess, UsersRoleAccess>();
             #endregion
 
-
             #endregion
 
             #region Services
 
             #region AccountServices
-
             services.AddScoped<AccountSerurityService>();
+            services.AddScoped<UserService>();
             #endregion
-
 
             #endregion
 
             services.AddSignalR();
+            services.AddAutoMapper();
 
             services.AddMvc();
 
@@ -65,6 +65,7 @@ namespace BleachGameApi
                     .AllowAnyHeader()
                     .AllowCredentials();
             }));
+
             services.AddCors(o => o.AddPolicy("localHost4200", builder =>
             {
                 builder.WithOrigins("http://localhost:4200")
@@ -72,6 +73,7 @@ namespace BleachGameApi
                     .AllowAnyHeader()
                     .AllowCredentials();
             }));
+
             services.AddCors(o => o.AddPolicy("AllowAll", builder =>
             {
                 builder.AllowAnyOrigin()
@@ -90,7 +92,7 @@ namespace BleachGameApi
 
             app.UseSignalR(routes =>
             {
-                routes.MapHub<Character>("character");
+                routes.MapHub<CharacterHub>("characterHub");
             });
 
             if (env.IsDevelopment())

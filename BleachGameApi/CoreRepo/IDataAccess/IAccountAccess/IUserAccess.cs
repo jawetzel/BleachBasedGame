@@ -15,5 +15,6 @@ namespace CoreRepo.IDataAccess.IAccountAccess
 
         User GetByVerifyString(string verifyString);
         User GetByEmail(string email);
+        User GetByConnectionId(string connectionId);
     }
 ;}

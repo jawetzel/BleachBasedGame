@@ -22,14 +22,14 @@ class App extends Component {
     }
 
     connect1(){
-        let connection = new HubConnection('http://localhost:62618/chat?Token=tokens');
+        let connection = new HubConnection('http://localhost:49412/characterHub?Token=tokens');
 
         connection.on('send', data => {
             console.log("connection 1 recieved Data");
         });
 
         connection.start()
-            .then(() => connection.invoke('send', { Message: 'hello moto' }));
+            .then(() => console.log("hello moto"));
 
         this.setState({hubConnection1: connection});
     }
@@ -41,14 +41,14 @@ class App extends Component {
 
 
     connect2(){
-        let connection = new HubConnection('http://localhost:62618/chat?Token=tokens');
+        let connection = new HubConnection('http://localhost:49412/characterHub?Token=tokens');
 
         connection.on('send', data => {
             console.log("connection 2 recieved data");
         });
 
         connection.start()
-            .then(() => connection.invoke('send', { Message: 'hello moto' }));
+            .then(() => console.log("hello moto"));
 
         this.setState({hubConnection2: connection});
     }

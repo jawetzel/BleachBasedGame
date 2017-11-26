@@ -21,6 +21,16 @@ namespace CoreRepo.Database.Tables.Account
         public string VerifyString { get; set; }
 
         public bool IsOnline { get; set; }
+        public string ConnectionId { get; set; }
+
+        public string UserName { get; set; }
+        public decimal PositionX { get; set; }
+        public decimal PositionY { get; set; }
+        public decimal PositionZ { get; set; }
+        public int FacingDirection { get; set; }
+
+        public int MaxHealth { get; set; }
+        public int Health { get; set; }
 
         public ICollection<UsersRole> UsersRoles { get; set; }
         public ICollection<Session> Sessions { get; set; }

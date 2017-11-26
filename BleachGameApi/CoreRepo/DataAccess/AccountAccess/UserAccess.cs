@@ -80,5 +80,10 @@ namespace CoreRepo.DataAccess.AccountAccess
         {
             return _context.Users.FirstOrDefault(user => user.Email.Equals(email));
         }
+
+        public User GetByConnectionId(string connectionId)
+        {
+            return _context.Users.FirstOrDefault(user => user.ConnectionId.Equals(connectionId));
+        }
     }
 }
