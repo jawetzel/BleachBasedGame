@@ -5,14 +5,8 @@ using CoreRepo.Database.Tables.Account;
 
 namespace CoreRepo.IDataAccess.IAccountAccess
 {
-    public interface IUserAccess
+    public interface IUserAccess : IBaseDataAccess<User>
     {
-        User Create(User model);
-        User Update(User model);
-        bool Delete(User model);
-        User GetById(int id);
-        List<User> GetAll();
-
         User GetByVerifyString(string verifyString);
         User GetByEmail(string email);
         User GetByConnectionId(string connectionId);
