@@ -21,12 +21,12 @@ namespace BleachGameApi.SignalRStuff
 
         public Task Send(CharacterModel model)
         {
-            var connectionId = Context.ConnectionId;
+            //var connectionId = Context.ConnectionId;
             if (model.PositionX == 0M || model.PositionY == 0M || model.PositionZ == 0M || model.FacingDirection == 0)
             {
                 Clients.User("userid").InvokeAsync("Send", "success = false");
             };
-            _userService.UpdateCharacterPosition(model, connectionId);
+            //_userService.UpdateCharacterPosition(model, connectionId);
 
             //Send Response to Indivijual
             //return Clients.User("userid").InvokeAsync("Send", message);
@@ -40,18 +40,18 @@ namespace BleachGameApi.SignalRStuff
 
         public override Task OnConnectedAsync()
         {
-            var connectionId = Context.ConnectionId;
+            //var connectionId = Context.ConnectionId;
 
             //pull value off queery string ?Token=[string]
-            var token = Context.Connection.GetHttpContext().Request.Query["Token"][0];
+            //var token = Context.Connection.GetHttpContext().Request.Query["Token"][0];
 
-            if (_accountSerurityService.CheckToken(token) == null)
-            {
-                Context.Connection.Abort();
-                return base.OnConnectedAsync();
-            }
+            ////if (_accountSerurityService.CheckToken(token) == null)
+            //{
+           ///     Context.Connection.Abort();
+            //    return base.OnConnectedAsync();
+            //}
 
-            _userService.AssignConnectionId(token, connectionId);
+            //_userService.AssignConnectionId(token, connectionId);
 
             // on connection update user for connection id
             //this.Groups.AddAsync(this.Context.ConnectionId, "group1");
@@ -61,8 +61,8 @@ namespace BleachGameApi.SignalRStuff
 
         public override Task OnDisconnectedAsync(Exception exception)
         {
-            var connectionId = Context.ConnectionId;
-            _userService.UnassignConnectionId(connectionId);
+            //var connectionId = Context.ConnectionId;
+            //_userService.UnassignConnectionId(connectionId);
             // on connection updare user online status and connection id
             return base.OnDisconnectedAsync(exception);
         }

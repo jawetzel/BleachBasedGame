@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BleachGameApi.SignalRStuff;
 using CoreRepo.Database.Tables.Account;
 using CoreServices.AccountServices;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 
 namespace BleachGameApi.Controllers.Account
 {
@@ -13,11 +15,26 @@ namespace BleachGameApi.Controllers.Account
     [Route("api/AccountSerurity")]
     public class AccountSerurityController : Controller
     {
+
+
+        private IHubContext<CharacterHub> _hubContext;
         private readonly AccountSerurityService _accountSerurity;
-        public AccountSerurityController(AccountSerurityService accountSerurityService)
+        public AccountSerurityController(AccountSerurityService accountSerurityService, IHubContext<CharacterHub> hubContext)
         {
+            _hubContext = hubContext;
             _accountSerurity = accountSerurityService;
         }
+
+
+        [HttpGet]
+        [Route("signalTesting")]
+        public JsonResult SignalRTestinging()
+        {
+            var clients = _hubContext.Clients;
+            clients.All.InvokeAsync("Send", true);
+            return Json(new {success = true});
+        }
+
 
         [HttpPost]
         [Route("Register")]
