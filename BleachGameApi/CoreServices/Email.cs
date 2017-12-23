@@ -22,8 +22,8 @@ namespace CoreServices
             {//begin using
                 client.Connect("smtp.gmail.com", 587, SecureSocketOptions.StartTlsWhenAvailable);
                 client.AuthenticationMechanisms.Remove("XOAUTH2"); // Must be removed for Gmail SMTP
-                client.Authenticate("bleachgameautosender@gmail.com",
-                    "6f7343f1d87e45e7aab2c8dfcd1d0d8689d2d3a6e6d44c2b8ccf1caecc4b980c39aed71d2b5e47768929f37efebb1472");
+                client.Authenticate("email@gmail.com",
+                    "password");
                 client.Send(emailMessage);
                 client.Disconnect(true);
             }//end using
